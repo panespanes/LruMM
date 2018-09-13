@@ -25,6 +25,24 @@ LruMM是线程安全的.
 
 LruMM还解决了LruCache的缓存穿透问题. 当数据的值为空, LruCache无法缓存空值, 如果频繁查这个关键字会导致每次请求都绕过缓存, 发生缓存穿透. 因此LruMM允许插入空值.
 
-插入数据的流程如下:
+# 用法
+
+与LruCache一致.
+
+* 获取实例
+```java
+LruMM<Object, Object> lruMM = new LruMM<>(maxSize);
+```
+* 写入缓存
+```java
+lruMM.put("key", "value");
+```
+* 获取缓存
+```java
+Object value = lruMM.get("key");
+```
+
+# 流程图
+写入缓存的流程如下:
 
 ![](https://github.com/panespanes/LruMM/blob/master/blob/LruMm_put.jpg)
