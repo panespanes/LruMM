@@ -11,8 +11,8 @@ import java.util.Map;
  * @contact pt135794@alibaba-inc.com
  */
 public class LruMM<K, V> {
-    public final LinkedHashMap<K, V> major;
-    public final LinkedHashMap<K, V> minor;
+    private final LinkedHashMap<K, V> major;
+    private final LinkedHashMap<K, V> minor;
 
     private int size;
     private int majorSize;
