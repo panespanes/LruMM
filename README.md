@@ -12,6 +12,7 @@ LruCache的回收策略是"最近最少使用", 在数据周期性访问的场�
 
 # 实现
 LruMM由Major和Minor两个LinkedHashMap组成, 总大小固定为maxSize. 
+
 多次访问/写入的数据保存在Major, 单次的保存在Minor. Major和Minor分别以使用顺序排序, 最近使用的在末尾. 访问时先从Major的末尾向头部查询, 缓存满时优先从Minor头部淘汰. 
 
 * 访问: 先从Major查询, 未命中则从Minor查询.
@@ -20,6 +21,6 @@ LruMM由Major和Minor两个LinkedHashMap组成, 总大小固定为maxSize.
 * 升级: 访问命中或修改Minor后将该数据从Minor移到Major末尾.
 * 降级: 每次修改Major都会触发降级, 降级策略是当Major长度大于maxSize/2则将Major头部移到Minor末尾.
 
-LRUMM是线程安全的.
+LruMM是线程安全的.
 
 插入数据的流程如下:
