@@ -2,7 +2,7 @@
 
 an implementation of Lru-K algorithm
 
-Lru-K算法的实现. 比LruCache更好的命中率, 同时降低缓存污染.
+Lru-K算法的实现. 相比LruCache有更好的命中率, 能够防止缓存穿透, 同时降低缓存污染.
 
 # 原理
 
@@ -22,6 +22,8 @@ LruMM由Major和Minor两个LinkedHashMap组成, 总大小固定为maxSize.
 * 降级: 每次修改Major都会触发降级, 降级策略是当Major长度大于maxSize/2则将Major头部移到Minor末尾.
 
 LruMM是线程安全的.
+
+LruMM还解决了LruCache的缓存穿透问题. 当数据的值为空, LruCache无法缓存空值, 如果频繁查这个关键字会导致每次请求都绕过缓存, 发生缓存穿透. 因此LruMM允许插入空值.
 
 插入数据的流程如下:
 
