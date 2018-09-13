@@ -24,3 +24,5 @@ LruMM由Major和Minor两个LinkedHashMap组成, 总大小固定为maxSize.
 LruMM是线程安全的.
 
 插入数据的流程如下:
+
+![](https://github.com/panespanes/LruMM/blob/master/blob/LruMm_put.jpg)
