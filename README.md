@@ -43,9 +43,9 @@ Object value = lruMM.get("key");
 ```
 * 获取Major或Minor的快照(仅当value为基本数据类型时深拷贝, 其他类型浅拷贝)
 ```java
-lruMM.snapshotMajor();
+Map<Object, Object> major = lruMM.snapshotMajor();
 
-lruMM.snapshotMinor();
+Map<Object, Object> minor = lruMM.snapshotMinor();
 ```
 # 流程图
 写入缓存的流程如下:
