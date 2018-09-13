@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "v5 = " + v5 + "; " + "v6 = " + v6);
         lruMM.put("k10", "v10");
         lruMM.put("k11", "v11");
-//        lruMM.put("k8", "v8");
-//        lruMM.put("k9", "v9");
-//        lruMM.put("k1", "v1");
+        lruMM.put("k8", "v8");
+        lruMM.put("k9", "v9");
+        lruMM.put("k1", "v1");
         Map<String, String> major = lruMM.snapshotMajor();
         Log.d(TAG, "major: ");
         for (Map.Entry<String, String> entry : major.entrySet()) {

@@ -15,6 +15,7 @@ public class LruMM<K, V> {
     public final LinkedHashMap<K, V> minor;
 
     private int size;
+    private int majorSize;
     private int maxSize;
 
     public LruMM(int maxSize) {
@@ -57,8 +58,9 @@ public class LruMM<K, V> {
 
     private void putMajor(K key, V value) {
         // major does not contain the key in any case
+        majorSize += safeSizeOf(key, value);
         major.put(key, value);
-        downgrade(key, value);
+        downgrade();
     }
 
     /**
@@ -66,11 +68,18 @@ public class LruMM<K, V> {
      * 'downgrade' opposite to 'upgrade' will be triggered.
      * but, in fact, maxMajorSize does not exist -- the size of major or minor is dynamic,
      * the only permanent number is sum of major and minor.
+     * so we simply imply maxMajorSize = maxSize / 2. maybe this will be modified later.
      *
-     * @param key
-     * @param value
      */
-    private void downgrade(K key, V value) {
+    private void downgrade() {
+        if (!major.isEmpty() && majorSize > maxSize / 2) {
+            Map.Entry<K, V> next = major.entrySet().iterator().next();
+            K downgradeKey = next.getKey();
+            V downgradeValue = next.getValue();
+            majorSize -= safeSizeOf(downgradeKey, downgradeValue);
+            major.remove(downgradeKey);
+            minor.put(downgradeKey, downgradeValue);
+        }
     }
 
     public final void put(K key, V value) {
@@ -81,7 +90,7 @@ public class LruMM<K, V> {
         synchronized (this) {
             mapValue = major.get(key);
             if (mapValue != null) {
-                major.put(key, value);
+                putMajor(key, value);
             } else {
                 mapValue = minor.get(key);
                 if (mapValue != null) {
@@ -118,6 +127,7 @@ public class LruMM<K, V> {
                     key = next.getKey();
                     value = next.getValue();
                     major.remove(key);
+                    majorSize -= safeSizeOf(key, value);
                 }
                 size -= safeSizeOf(key, value);
             }
